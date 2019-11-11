@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Platform, ImageBackground, Text, TextInput, TouchableOpacity, Button, View } from 'react-native';
+import KeyboardSpacer from "react-native-keyboard-spacer";
 
 const CHAT_COLOR_1 = '#090C08';
 const CHAT_COLOR_2 = '#474056';
@@ -104,6 +105,8 @@ export default class Start extends Component {
           </View>
           <View style={styles.footerBox}></View>
         </View>
+      {/* this is used to correct a glitch with the Android keyboard */}
+      {Platform.OS === 'android' ? <KeyboardSpacer /> : null }      
       </ImageBackground>
     );
   }
