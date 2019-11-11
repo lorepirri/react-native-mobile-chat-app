@@ -1,6 +1,3 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-
 // import react Navigation
 import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
@@ -12,7 +9,9 @@ import ChatScreen from './components/Chat';
 // Create the navigator
 const navigator = createStackNavigator(
   {
+    // Initial screen
     StartScreen: { screen: StartScreen, headerMode: 'none' },
+    // The chat screen
     ChatScreen: { screen: ChatScreen }
   },
   {
@@ -21,5 +20,6 @@ const navigator = createStackNavigator(
 );
 
 const navigatorContainer = createAppContainer(navigator);
+
 // Export it as the root component
 export default navigatorContainer;
