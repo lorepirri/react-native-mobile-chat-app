@@ -1,19 +1,25 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
-}
+// import react Navigation
+import { createAppContainer } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation-stack'
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+// import the two screens Start and Chat
+import StartScreen from './components/Start';
+import ChatScreen from './components/Chat';
+
+// Create the navigator
+const navigator = createStackNavigator(
+  {
+    StartScreen: { screen: StartScreen, headerMode: 'none' },
+    ChatScreen: { screen: ChatScreen }
   },
-});
+  {
+    initialRouteName: 'StartScreen',
+  }
+);
+
+const navigatorContainer = createAppContainer(navigator);
+// Export it as the root component
+export default navigatorContainer;

@@ -1,0 +1,163 @@
+import React, { Component } from 'react';
+import { StyleSheet, Platform, ImageBackground, Text, TextInput, Alert, TouchableOpacity, Button, View } from 'react-native';
+import { setWorldOriginAsync } from 'expo/build/AR';
+
+const CHAT_COLOR_1 = '#090C08';
+const CHAT_COLOR_2 = '#474056';
+const CHAT_COLOR_3 = '#8A95A5';
+const CHAT_COLOR_4 = '#B9C6AE';
+
+export default class Start extends Component {
+  
+  constructor(props){
+    super(props);
+    this.state = {
+      userName: '',
+      chatColor: CHAT_COLOR_3
+    }
+  }
+
+  render() {
+    return (
+      <ImageBackground source={require('../assets/background.png')} style={{flex: 1, width: '100%', height: '100%'}}>
+        <View style={styles.container}>
+          <View style={styles.headerBox}></View>
+          <View style={styles.titleBox}>
+            <Text style={styles.titleText}>Mobile Chat</Text>
+          </View>
+          <View style={styles.userBox}>
+            {/* Username input box */}
+            <View style={styles.innerBox}>
+              <TextInput style={styles.userNameInputbox}
+                accessible={true}
+                accessibilityLabel='Input name'
+                onChangeText={(userName) => this.setState({ userName })}
+                value={this.state.userName}
+                placeholder='Your Name'
+              />
+            </View>
+            {/* Background color selection */}
+            <View style={styles.innerBox}>
+              <Text style={styles.chooseBackgroundText}>Choose Background Color</Text>
+              <View style={styles.chooseBackgroundColorBox}>
+                <TouchableOpacity
+                  onPress={() => this.setState({ chatColor: CHAT_COLOR_1})}
+                  style={[styles.backgroundColorButton, styles.backgroundColor1, this.state.chatColor == CHAT_COLOR_1 ? styles.backgroundColorButtonActive : null]}
+                />
+                <TouchableOpacity
+                  onPress={() => this.setState({ chatColor: CHAT_COLOR_2})}
+                  style={[styles.backgroundColorButton, styles.backgroundColor2, this.state.chatColor == CHAT_COLOR_2 ? styles.backgroundColorButtonActive : null]}
+                />
+                <TouchableOpacity
+                  onPress={() => this.setState({ chatColor: CHAT_COLOR_3})}
+                  style={[styles.backgroundColorButton, styles.backgroundColor3, this.state.chatColor == CHAT_COLOR_3 ? styles.backgroundColorButtonActive : null]}
+                />
+                <TouchableOpacity
+                  onPress={() => this.setState({ chatColor: CHAT_COLOR_4})}
+                  style={[styles.backgroundColorButton, styles.backgroundColor4, this.state.chatColor == CHAT_COLOR_4 ? styles.backgroundColorButtonActive : null]}
+                />
+              </View>
+            </View>
+            {/* Button to enter the chat */}
+            <View style={styles.innerBox}>
+              <Button
+                title="Start Chatting"
+                style={[styles.gotoChatButton], { backgroundColor: this.state.chatColor}}
+                onPress={() => this.props.navigation.navigate('ChatScreen', { userName: this.state.userName, chatColor: this.state.chatColor })}
+              />              
+            </View>
+          </View>
+          <View style={styles.footerBox}></View>
+        </View>
+      </ImageBackground>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%'
+  },
+  headerBox: {
+    height:'15%',
+    width:'88%',
+    alignItems: 'center'
+  },  
+  titleBox: {
+    height:'35%',
+    width:'88%',
+    alignItems: 'center',
+    justifyContent: 'flex-start'
+  },
+  titleText: {
+    fontSize: 45,
+    fontWeight: "600",
+    color: 'white'
+  },
+  userBox: {
+    height:'44%',
+    width:'88%',
+    backgroundColor: 'white',
+    justifyContent: 'space-between',
+    padding: '6%'
+  },
+  innerBox: {
+  },
+  userNameInputbox: {
+    fontSize: 16,
+    fontWeight: "300",
+    color: '#757083',
+    borderWidth: 1,
+    borderColor: '#757083',
+    padding: 10
+  },
+  chooseBackgroundColorBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width:'80%',
+    padding: 10
+  },  
+  chooseBackgroundText: {
+    fontSize: 16,
+    fontWeight: "300",
+    color: "#757083"
+  },
+  backgroundColorButton:{
+    height: 50,
+    width: 50,
+    borderRadius: 25,
+    borderWidth: 0,
+  },
+  backgroundColorButtonActive:{
+    borderWidth: 5,
+    borderColor: "#757083"    
+  },
+  backgroundColor1:{
+    backgroundColor: CHAT_COLOR_1
+  },
+  backgroundColor2:{
+    backgroundColor: CHAT_COLOR_2
+  },
+  backgroundColor3:{
+    backgroundColor: CHAT_COLOR_3
+  },
+  backgroundColor4:{
+    backgroundColor: CHAT_COLOR_4
+  },
+  gotoChatButton: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: '#FFFFFF',
+    backgroundColor: '#757083',
+    padding: 10
+  },
+  footerBox: {
+    height:'6%',
+    width:'88%'
+  }
+});
