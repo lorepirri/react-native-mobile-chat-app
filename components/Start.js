@@ -10,10 +10,10 @@ const CHAT_COLOR_4 = '#B9C6AE';
 // This class implements the Start screen
 export default class Start extends Component {
   
-  static navigationOptions = {
-    // hide navigation bar just for this screen
-    headerShown: false,
-  };  
+  // static navigationOptions = {
+  //   // hide navigation bar just for this screen
+  //   headerShown: false,
+  // };  
 
   constructor(props){
     super(props);

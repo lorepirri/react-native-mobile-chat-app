@@ -3,6 +3,9 @@ import { StyleSheet, Platform, View, Text, AsyncStorage, NetInfo } from 'react-n
 import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
 import KeyboardSpacer from "react-native-keyboard-spacer";
 
+import MapView from 'react-native-maps';
+import CustomActions from './CustomActions';
+
 import config from "../config";
 const firebase = require('firebase');
 require('firebase/firestore');
@@ -37,21 +40,9 @@ export default class Chat extends Component {
       messages: [],
       uid: 0,
       isConnected: false,
+      image: ''
     };
   }
-
-  async getMessages() {
-    // load the messages from asyncStorage
-    let messages = '';
-    try {
-      messages = await AsyncStorage.getItem('messages') || [];
-      this.setState({
-        messages: JSON.parse(messages)
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
 
   componentDidMount() {
 
@@ -110,6 +101,8 @@ export default class Chat extends Component {
     querySnapshot.forEach((doc) => {
       // get the QueryDocumentSnapshot's data
       var data = doc.data();
+
+      // let message = 
       messages.push({
         _id: data._id,
         createdAt: data.createdAt.toDate(),
@@ -117,25 +110,41 @@ export default class Chat extends Component {
         user: {
           _id: data.user._id,
           name: data.user.name
-        }
+        },
+        image: data.image || '',
+        location: data.location || null
       });
+
     });
+    // update the state with messages
     this.setState({ 
       messages,
    });
   }
 
-   
-  addMessage(messages) {
-    console.log(this.props.navigation.state.params.userName);
+  async getMessages() {
+    // load the messages from asyncStorage
+    let messages = '';
+    try {
+      messages = await AsyncStorage.getItem('messages') || [];
+      this.setState({
+        messages: JSON.parse(messages)
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  async addMessage(messages) {
+    const message = messages[0];
+
     this.referenceMessages.add({
-      _id: messages[0]._id,
-      createdAt: messages[0].createdAt,
-      text: messages[0].text,
-      user: {
-        _id :this.state.uid,
-        name: this.props.navigation.state.params.userName
-      }
+      _id: message._id,
+      createdAt: message.createdAt,
+      text: message.text || '',
+      user: message.user,
+      image: message.image || '',
+      location: message.location || null
     });
   }
 
@@ -199,6 +208,32 @@ export default class Chat extends Component {
     )
   }  
 
+  renderCustomActions = (props) => {
+    return <CustomActions {...props} />;
+  };
+
+  renderCustomView (props) {
+    const { currentMessage } = props;
+    if (currentMessage.location) {
+      return (
+        <MapView
+          style={{width: 150,
+            height: 100,
+            borderRadius: 13,
+            margin: 3
+          }}
+          region={{
+            latitude: currentMessage.location.latitude,
+            longitude: currentMessage.location.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />
+      );
+    }
+    return null;
+  }
+
   render() {
     
     return (
@@ -209,6 +244,8 @@ export default class Chat extends Component {
         <GiftedChat
           renderInputToolbar={this.renderInputToolbar.bind(this)}
           renderBubble={this.renderBubble.bind(this)}
+          renderActions={this.renderCustomActions}
+          renderCustomView={this.renderCustomView}          
           messages={this.state.messages}
           onSend={messages => this.onSend(messages)}
           user={{
