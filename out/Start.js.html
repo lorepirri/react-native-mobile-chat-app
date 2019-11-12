@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Start.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Start.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
+import {
+  StyleSheet, Platform, ImageBackground, Text, TextInput, TouchableOpacity, Button, View,
+} from 'react-native';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
+
+const CHAT_COLOR_1 = '#090C08';
+const CHAT_COLOR_2 = '#474056';
+const CHAT_COLOR_3 = '#8A95A5';
+const CHAT_COLOR_4 = '#B9C6AE';
+
+/**
+* This class implements the Start screen
+* @class Start
+*/
+export default class Start extends Component {
+  constructor(props) {
+    super(props);
+    // set the state for the user name and color (default set to the third one)
+    this.state = {
+      userName: '',
+      chatColor: CHAT_COLOR_3,
+    };
+  }
+
+  render() {
+    return (
+      // wrap everything with ImageBackground to have a nice image background
+      &lt;ImageBackground source={require('../assets/background.png')} style={{flex: 1, width: '100%', height: '100%'}}>
+        {/* main container 100% height */}
+        &lt;View style={styles.container}>
+          {/* this view is to add an empty header */}
+          &lt;View style={styles.headerBox} />
+          {/* this view contains the title of the app */}
+          &lt;View style={styles.titleBox}>
+            &lt;Text style={styles.titleText}>Mobile Chat&lt;/Text>
+          &lt;/View>
+          {/* this view contains the white box to enter username
+              select color and button to enter in chat */}
+          &lt;View style={styles.userBox}>
+            {/* Username input box */}
+            &lt;View style={styles.innerBox}>
+              &lt;TextInput
+                style={styles.userNameInputbox}
+                accessible={true}
+                accessibilityLabel="Input name"
+                accessibilityHint="Let you choose your name for the chat."
+                accessibilityRole="button"
+                onChangeText={(userName) => this.setState({ userName })}
+                value={this.state.userName}
+                placeholder="Your Name"
+              />
+            &lt;/View>
+            {/* Background color selection */}
+            &lt;View style={styles.innerBox}>
+              &lt;Text style={styles.chooseBackgroundText}>Choose Background Color&lt;/Text>
+              {/* the list of color buttons to choose from */}
+              &lt;View style={styles.chooseBackgroundColorBox}>
+                &lt;TouchableOpacity
+                  accessible={true}
+                  accessibilityLabel="Choose color 1"
+                  accessibilityHint="Let you choose the color of the background of the chat."
+                  accessibilityRole="button"
+                  onPress={() => this.setState({ chatColor: CHAT_COLOR_1 })}
+                  style={[
+                    styles.backgroundColorButton,
+                    styles.backgroundColor1,
+                    this.state.chatColor === CHAT_COLOR_1 ? styles.backgroundColorButtonActive : null,
+                  ]}
+                />
+                &lt;TouchableOpacity
+                  accessible={true}
+                  accessibilityLabel="Choose color 2"
+                  accessibilityHint="Let you choose the color of the background of the chat."
+                  accessibilityRole="button"
+                  onPress={() => this.setState({ chatColor: CHAT_COLOR_2 })}
+                  style={[
+                    styles.backgroundColorButton,
+                    styles.backgroundColor2,
+                    this.state.chatColor === CHAT_COLOR_2 ? styles.backgroundColorButtonActive : null,
+                  ]}
+                />
+                &lt;TouchableOpacity
+                  accessible={true}
+                  accessibilityLabel="Choose color 3"
+                  accessibilityHint="Let you choose the color of the background of the chat."
+                  accessibilityRole="button"
+                  onPress={() => this.setState({ chatColor: CHAT_COLOR_3 })}
+                  style={[
+                    styles.backgroundColorButton,
+                    styles.backgroundColor3,
+                    this.state.chatColor === CHAT_COLOR_3 ? styles.backgroundColorButtonActive : null,
+                  ]}
+                />
+                &lt;TouchableOpacity
+                  accessible={true}
+                  accessibilityLabel="Choose color 4"
+                  accessibilityHint="Let you choose the color of the background of the chat."
+                  accessibilityRole="button"
+                  onPress={() => this.setState({ chatColor: CHAT_COLOR_4 })}
+                  style={[
+                    styles.backgroundColorButton,
+                    styles.backgroundColor4,
+                    this.state.chatColor === CHAT_COLOR_4 ? styles.backgroundColorButtonActive : null,
+                  ]}
+                />
+              &lt;/View>
+            &lt;/View>
+            {/* Button to enter the chat */}
+            &lt;View style={styles.innerBox}>
+              &lt;Button
+                accessible={true}
+                accessibilityLabel="Start Chatting"
+                accessibilityHint="Let you start chatting."
+                accessibilityRole="button"
+                title="Start Chatting"
+                style={[styles.gotoChatButton], { backgroundColor: this.state.chatColor }}
+                onPress={() => this.props.navigation.navigate('ChatScreen', { userName: this.state.userName, chatColor: this.state.chatColor })}
+              />
+            &lt;/View>
+          &lt;/View>
+          &lt;View style={styles.footerBox} />
+        &lt;/View>
+        {/* this is used to correct a glitch with the Android keyboard */}
+        {Platform.OS === 'android' ? &lt;KeyboardSpacer /> : null }
+      &lt;/ImageBackground>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
+  },
+  headerBox: {
+    height: '15%',
+    width: '88%',
+    alignItems: 'center',
+  },
+  titleBox: {
+    height: '35%',
+    width: '88%',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  titleText: {
+    fontSize: 45,
+    fontWeight: '600',
+    color: 'white',
+  },
+  userBox: {
+    height: '44%',
+    width: '88%',
+    backgroundColor: 'white',
+    justifyContent: 'space-between',
+    padding: '6%',
+  },
+  innerBox: {
+  },
+  userNameInputbox: {
+    fontSize: 16,
+    fontWeight: '300',
+    color: '#757083',
+    borderWidth: 1,
+    borderColor: '#757083',
+    padding: 10,
+  },
+  chooseBackgroundColorBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '80%',
+    padding: 10,
+  },
+  chooseBackgroundText: {
+    fontSize: 16,
+    fontWeight: '300',
+    color: '#757083',
+  },
+  backgroundColorButton: {
+    height: 50,
+    width: 50,
+    borderRadius: 25,
+    borderWidth: 0,
+  },
+  backgroundColorButtonActive: {
+    borderWidth: 5,
+    borderColor: '#757083',
+  },
+  backgroundColor1: {
+    backgroundColor: CHAT_COLOR_1,
+  },
+  backgroundColor2: {
+    backgroundColor: CHAT_COLOR_2,
+  },
+  backgroundColor3: {
+    backgroundColor: CHAT_COLOR_3,
+  },
+  backgroundColor4: {
+    backgroundColor: CHAT_COLOR_4,
+  },
+  gotoChatButton: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FFFFFF',
+    backgroundColor: '#757083',
+    padding: 10,
+  },
+  footerBox: {
+    height: '6%',
+    width: '88%',
+  },
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Chat.html">Chat</a></li><li><a href="CustomActions.html">CustomActions</a></li><li><a href="Start.html">Start</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addMessage">addMessage</a></li><li><a href="global.html#deleteMessages">deleteMessages</a></li><li><a href="global.html#getLocation">getLocation</a></li><li><a href="global.html#getMessages">getMessages</a></li><li><a href="global.html#onActionPress">onActionPress</a></li><li><a href="global.html#onCollectionUpdate">onCollectionUpdate</a></li><li><a href="global.html#onSend">onSend</a></li><li><a href="global.html#pickImage">pickImage</a></li><li><a href="global.html#renderBubble">renderBubble</a></li><li><a href="global.html#renderCustomActions">renderCustomActions</a></li><li><a href="global.html#renderCustomView">renderCustomView</a></li><li><a href="global.html#renderInputToolbar">renderInputToolbar</a></li><li><a href="global.html#saveMessages">saveMessages</a></li><li><a href="global.html#takePhoto">takePhoto</a></li><li><a href="global.html#uploadImage">uploadImage</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Tue Nov 12 2019 20:48:56 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
