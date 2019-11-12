@@ -14,7 +14,10 @@ import ChatScreen from './components/Chat';
 const navigator = createStackNavigator(
   {
     // Initial screen
-    StartScreen: { screen: StartScreen },
+    StartScreen: { screen: StartScreen,
+      navigationOptions: {
+        header: null
+      } },
     // The chat screen
     ChatScreen: { screen: ChatScreen }
   },
