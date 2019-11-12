@@ -13,6 +13,7 @@ require('firebase/firestore');
 export default class CustomActions extends React.Component {
   /**
   * Let the user upload an image online and get the getDownloadURL
+  * @param uri uri of the image
   * @return download URL of the image or null in case of error
   */
   uploadImage = async (uri) => {
@@ -51,6 +52,7 @@ export default class CustomActions extends React.Component {
 
   /**
   * Let the user pick an image from the device's image library
+  * @async
   */
   pickImage = async () => {
     try {
@@ -72,6 +74,7 @@ export default class CustomActions extends React.Component {
 
   /**
   * Let the user take a picture using the camera of the device
+  * @async
   */
   takePhoto = async () => {
     try {
@@ -92,6 +95,7 @@ export default class CustomActions extends React.Component {
 
   /**
   * Let the user take the position of the device
+  * @async
   */
   getLocation = async () => {
     try {

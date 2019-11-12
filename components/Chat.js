@@ -146,6 +146,7 @@ export default class Chat extends Component {
 
   /**
   * Load the messages from asyncStorage
+  * @async
   */
   getMessages = async () => {
     let messages = '';
@@ -161,6 +162,8 @@ export default class Chat extends Component {
 
   /**
   * Store the messages online
+  * @param messages the list of messages to store
+  * @async
   */
   addMessage = async (messages) => {
     const message = messages[0];
@@ -180,6 +183,7 @@ export default class Chat extends Component {
 
   /**
   * Store the messages on the local store for offline mode
+  * @async
   */
   saveMessages = async () => {
     try {
@@ -191,6 +195,7 @@ export default class Chat extends Component {
 
   /**
   * Clear the local storage. Only for development
+  * @async
   */
   deleteMessages = async () => {
     try {
@@ -202,6 +207,8 @@ export default class Chat extends Component {
 
   /**
   * Handler to customize the input bar (do not show it if offline)
+  * @param props
+  * @return InputToolbar
   */
   renderInputToolbar = (props) => {
     if (this.state.isConnected) {
@@ -212,6 +219,8 @@ export default class Chat extends Component {
 
   /**
   * Handler to customize the bubbles (left, right)
+  * @param props
+  * @return Bubble
   */
   renderBubble = (props) => {
     return (
@@ -231,11 +240,15 @@ export default class Chat extends Component {
 
   /**
   * Handler to render the actions (send image, location)
+  * @param props
+  * @return CustomActions
   */
   renderCustomActions = (props) => <CustomActions {...props} />;
 
   /**
   * Handler to render the location as a map
+  * @param props
+  * @return MapView
   */
   renderCustomView = (props) => {
     const { currentMessage } = props;
