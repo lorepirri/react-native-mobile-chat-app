@@ -1,3 +1,7 @@
+
+import React from 'react';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
+
 // import react Navigation
 import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
