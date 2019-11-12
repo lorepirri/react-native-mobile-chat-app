@@ -15,6 +15,9 @@ export default class Chat extends Component {
     // set the title of the navigation bar with the one passed as prop to navigate() in Start.js
     return {
       title: navigation.state.params.userName,
+      headerStyle: {
+        backgroundColor: navigation.state.params.bgColor
+      }
     };
   };
 
