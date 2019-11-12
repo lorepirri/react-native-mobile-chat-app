@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { 
+  StyleSheet, Text, View, TouchableOpacity,
+} from 'react-native';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
+
 const firebase = require('firebase');
 require('firebase/firestore');
 
@@ -25,7 +28,7 @@ export default class CustomActions extends React.Component {
         xhr.send(null);
       });
 
-      const imageNameBefore = uri.split("/");
+      const imageNameBefore = uri.split('/');
       const imageName = imageNameBefore[imageNameBefore.length - 1];
 
       const ref = firebase
@@ -46,15 +49,16 @@ export default class CustomActions extends React.Component {
     try {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
-      if(status === 'granted') {
-        let result = await ImagePicker.launchImageLibraryAsync({
+      if (status === 'granted') {
+        const result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: 'Images',
-        }).catch(error => console.log(error));
+        })
+          .catch((error) => console.log(error));
         if (!result.cancelled) {
-          this.props.onSend({image: result.uri});
+          this.props.onSend({ image: result.uri });
         }
       }
-    } catch(error) {
+    } catch (error) {
       console.log(error.message);
     }
   };
@@ -63,65 +67,71 @@ export default class CustomActions extends React.Component {
     try {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL, Permissions.CAMERA);
 
-      if(status === 'granted') {
-        let result = await ImagePicker.launchCameraAsync()
-        .catch(error => console.log(error));
-  
+      if (status === 'granted') {
+        const result = await ImagePicker.launchCameraAsync()
+          .catch((error) => console.log(error));
         if (!result.cancelled) {
           const imageUrl = await this.uploadImage(result.uri);
           this.props.onSend({ image: imageUrl });
         }
       }
-    } catch(error) {
+    } catch (error) {
       console.log(error.message);
-    }    
+    }
   };
 
   getLocation = async () => {
     try {
       const { status } = await Permissions.askAsync(Permissions.LOCATION);
 
-      if(status === 'granted') {
-         let result = await Location.getCurrentPositionAsync({})
-         .catch(error => console.log(error));
-  
+      if (status === 'granted') {
+        const result = await Location.getCurrentPositionAsync({})
+          .catch((error) => console.log(error));
         if (result) {
-          this.props.onSend({location: { latitude: result.coords.latitude, longitude: result.coords.longitude }})
+          this.props.onSend({
+            location: {
+              latitude: result.coords.latitude,
+              longitude: result.coords.longitude,
+            },
+          });
         }
       }
-    } catch(error) {
+    } catch (error) {
       console.log(error.message);
-    }    
+    }
   };
 
   onActionPress = () => {
     const options = ['Choose From Library', 'Take Picture', 'Send Location', 'Cancel'];
     const cancelButtonIndex = options.length - 1;
-    this.context.actionSheet().showActionSheetWithOptions({
-      options,
-      cancelButtonIndex,
-    },
-    async (buttonIndex) => {
-      try {
-        switch (buttonIndex) {
-          case 0:
-            this.pickImage();
-            return;
-          case 1:
-            this.takePhoto();
-            return;
-          case 2:
-            this.getLocation();
-          default:
+    this.context.actionSheet().showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex,
+      },
+      async (buttonIndex) => {
+        try {
+          switch (buttonIndex) {
+            case 0:
+              this.pickImage();
+              return;
+            case 1:
+              this.takePhoto();
+              return;
+            case 2:
+              this.getLocation();
+              break;
+            default:
+              break;
+          }
+        } catch (error) {
+          console.log(error.message);
         }
-      } catch(error) {
-        console.log(error.message);
-      }        
-    },
+      },
     );
   };
 
-  render () {
+  render() {
     return (
       <TouchableOpacity style={[styles.container]} onPress={this.onActionPress}>
         <View style={[styles.wrapper, this.props.wrapperStyle]}>

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Platform, ImageBackground, Text, TextInput, TouchableOpacity, Button, View } from 'react-native';
-import KeyboardSpacer from "react-native-keyboard-spacer";
+import {
+  StyleSheet, Platform, ImageBackground, Text, TextInput, TouchableOpacity, Button, View,
+} from 'react-native';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 const CHAT_COLOR_1 = '#090C08';
 const CHAT_COLOR_2 = '#474056';
@@ -9,13 +11,12 @@ const CHAT_COLOR_4 = '#B9C6AE';
 
 // This class implements the Start screen
 export default class Start extends Component {
-  
-  constructor(props){
+  constructor(props) {
     super(props);
     // set the state for the user name and color (default set to the third one)
     this.state = {
       userName: '',
-      chatColor: CHAT_COLOR_3
+      chatColor: CHAT_COLOR_3,
     };
   }
 
@@ -26,24 +27,25 @@ export default class Start extends Component {
         {/* main container 100% height */}
         <View style={styles.container}>
           {/* this view is to add an empty header */}
-          <View style={styles.headerBox}></View>
+          <View style={styles.headerBox} />
           {/* this view contains the title of the app */}
           <View style={styles.titleBox}>
             <Text style={styles.titleText}>Mobile Chat</Text>
           </View>
-          {/* this view contains the white box to enter username select color and button to enter in chat */}
+          {/* this view contains the white box to enter username
+              select color and button to enter in chat */}
           <View style={styles.userBox}>
             {/* Username input box */}
             <View style={styles.innerBox}>
-              <TextInput style={styles.userNameInputbox}
+              <TextInput
+                style={styles.userNameInputbox}
                 accessible={true}
-                accessibilityLabel='Input name'
+                accessibilityLabel="Input name"
                 accessibilityHint="Let you choose your name for the chat."
-                accessibilityRole="button"                
-
+                accessibilityRole="button"
                 onChangeText={(userName) => this.setState({ userName })}
                 value={this.state.userName}
-                placeholder='Your Name'
+                placeholder="Your Name"
               />
             </View>
             {/* Background color selection */}
@@ -55,53 +57,69 @@ export default class Start extends Component {
                   accessible={true}
                   accessibilityLabel="Choose color 1"
                   accessibilityHint="Let you choose the color of the background of the chat."
-                  accessibilityRole="button"                
-                  onPress={() => this.setState({ chatColor: CHAT_COLOR_1})}
-                  style={[styles.backgroundColorButton, styles.backgroundColor1, this.state.chatColor == CHAT_COLOR_1 ? styles.backgroundColorButtonActive : null]}
+                  accessibilityRole="button"
+                  onPress={() => this.setState({ chatColor: CHAT_COLOR_1 })}
+                  style={[
+                    styles.backgroundColorButton,
+                    styles.backgroundColor1,
+                    this.state.chatColor === CHAT_COLOR_1 ? styles.backgroundColorButtonActive : null,
+                  ]}
                 />
                 <TouchableOpacity
-                  accessible={true}                
+                  accessible={true}
                   accessibilityLabel="Choose color 2"
                   accessibilityHint="Let you choose the color of the background of the chat."
-                  accessibilityRole="button"                
-                  onPress={() => this.setState({ chatColor: CHAT_COLOR_2})}
-                  style={[styles.backgroundColorButton, styles.backgroundColor2, this.state.chatColor == CHAT_COLOR_2 ? styles.backgroundColorButtonActive : null]}
+                  accessibilityRole="button"
+                  onPress={() => this.setState({ chatColor: CHAT_COLOR_2 })}
+                  style={[
+                    styles.backgroundColorButton,
+                    styles.backgroundColor2,
+                    this.state.chatColor === CHAT_COLOR_2 ? styles.backgroundColorButtonActive : null,
+                  ]}
                 />
                 <TouchableOpacity
-                  accessible={true}                
+                  accessible={true}
                   accessibilityLabel="Choose color 3"
                   accessibilityHint="Let you choose the color of the background of the chat."
-                  accessibilityRole="button"                
-                  onPress={() => this.setState({ chatColor: CHAT_COLOR_3})}
-                  style={[styles.backgroundColorButton, styles.backgroundColor3, this.state.chatColor == CHAT_COLOR_3 ? styles.backgroundColorButtonActive : null]}
+                  accessibilityRole="button"
+                  onPress={() => this.setState({ chatColor: CHAT_COLOR_3 })}
+                  style={[
+                    styles.backgroundColorButton,
+                    styles.backgroundColor3,
+                    this.state.chatColor === CHAT_COLOR_3 ? styles.backgroundColorButtonActive : null,
+                  ]}
                 />
                 <TouchableOpacity
-                  accessible={true}                
+                  accessible={true}
                   accessibilityLabel="Choose color 4"
                   accessibilityHint="Let you choose the color of the background of the chat."
-                  accessibilityRole="button"                
-                  onPress={() => this.setState({ chatColor: CHAT_COLOR_4})}
-                  style={[styles.backgroundColorButton, styles.backgroundColor4, this.state.chatColor == CHAT_COLOR_4 ? styles.backgroundColorButtonActive : null]}
+                  accessibilityRole="button"
+                  onPress={() => this.setState({ chatColor: CHAT_COLOR_4 })}
+                  style={[
+                    styles.backgroundColorButton,
+                    styles.backgroundColor4,
+                    this.state.chatColor === CHAT_COLOR_4 ? styles.backgroundColorButtonActive : null,
+                  ]}
                 />
               </View>
             </View>
             {/* Button to enter the chat */}
             <View style={styles.innerBox}>
               <Button
-                accessible={true}                
+                accessible={true}
                 accessibilityLabel="Start Chatting"
                 accessibilityHint="Let you start chatting."
-                accessibilityRole="button"                
+                accessibilityRole="button"
                 title="Start Chatting"
-                style={[styles.gotoChatButton], { backgroundColor: this.state.chatColor}}
+                style={[styles.gotoChatButton], { backgroundColor: this.state.chatColor }}
                 onPress={() => this.props.navigation.navigate('ChatScreen', { userName: this.state.userName, chatColor: this.state.chatColor })}
-              />              
+              />
             </View>
           </View>
-          <View style={styles.footerBox}></View>
+          <View style={styles.footerBox} />
         </View>
-      {/* this is used to correct a glitch with the Android keyboard */}
-      {Platform.OS === 'android' ? <KeyboardSpacer /> : null }      
+        {/* this is used to correct a glitch with the Android keyboard */}
+        {Platform.OS === 'android' ? <KeyboardSpacer /> : null }
       </ImageBackground>
     );
   }
@@ -113,84 +131,84 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     width: '100%',
-    height: '100%'
+    height: '100%',
   },
   headerBox: {
-    height:'15%',
-    width:'88%',
-    alignItems: 'center'
-  },  
-  titleBox: {
-    height:'35%',
-    width:'88%',
+    height: '15%',
+    width: '88%',
     alignItems: 'center',
-    justifyContent: 'flex-start'
+  },
+  titleBox: {
+    height: '35%',
+    width: '88%',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   titleText: {
     fontSize: 45,
-    fontWeight: "600",
-    color: 'white'
+    fontWeight: '600',
+    color: 'white',
   },
   userBox: {
-    height:'44%',
-    width:'88%',
+    height: '44%',
+    width: '88%',
     backgroundColor: 'white',
     justifyContent: 'space-between',
-    padding: '6%'
+    padding: '6%',
   },
   innerBox: {
   },
   userNameInputbox: {
     fontSize: 16,
-    fontWeight: "300",
+    fontWeight: '300',
     color: '#757083',
     borderWidth: 1,
     borderColor: '#757083',
-    padding: 10
+    padding: 10,
   },
   chooseBackgroundColorBox: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width:'80%',
-    padding: 10
-  },  
+    width: '80%',
+    padding: 10,
+  },
   chooseBackgroundText: {
     fontSize: 16,
-    fontWeight: "300",
-    color: "#757083"
+    fontWeight: '300',
+    color: '#757083',
   },
-  backgroundColorButton:{
+  backgroundColorButton: {
     height: 50,
     width: 50,
     borderRadius: 25,
     borderWidth: 0,
   },
-  backgroundColorButtonActive:{
+  backgroundColorButtonActive: {
     borderWidth: 5,
-    borderColor: "#757083"    
+    borderColor: '#757083',
   },
-  backgroundColor1:{
-    backgroundColor: CHAT_COLOR_1
+  backgroundColor1: {
+    backgroundColor: CHAT_COLOR_1,
   },
-  backgroundColor2:{
-    backgroundColor: CHAT_COLOR_2
+  backgroundColor2: {
+    backgroundColor: CHAT_COLOR_2,
   },
-  backgroundColor3:{
-    backgroundColor: CHAT_COLOR_3
+  backgroundColor3: {
+    backgroundColor: CHAT_COLOR_3,
   },
-  backgroundColor4:{
-    backgroundColor: CHAT_COLOR_4
+  backgroundColor4: {
+    backgroundColor: CHAT_COLOR_4,
   },
   gotoChatButton: {
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: '600',
     color: '#FFFFFF',
     backgroundColor: '#757083',
-    padding: 10
+    padding: 10,
   },
   footerBox: {
-    height:'6%',
-    width:'88%'
-  }
+    height: '6%',
+    width: '88%',
+  },
 });
