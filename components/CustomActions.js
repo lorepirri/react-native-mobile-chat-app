@@ -11,7 +11,10 @@ const firebase = require('firebase');
 require('firebase/firestore');
 
 export default class CustomActions extends React.Component {
-
+  /**
+  * Let the user upload an image online and get the getDownloadURL
+  * @return download URL of the image or null in case of error
+  */
   uploadImage = async (uri) => {
     try {
       const blob = await new Promise((resolve, reject) => {
@@ -42,9 +45,13 @@ export default class CustomActions extends React.Component {
       return imageUrl;
     } catch (error) {
       console.log(error.message);
+      return null;
     }
   }
 
+  /**
+  * Let the user pick an image from the device's image library
+  */
   pickImage = async () => {
     try {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -63,6 +70,9 @@ export default class CustomActions extends React.Component {
     }
   };
 
+  /**
+  * Let the user take a picture using the camera of the device
+  */
   takePhoto = async () => {
     try {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL, Permissions.CAMERA);
@@ -80,6 +90,9 @@ export default class CustomActions extends React.Component {
     }
   };
 
+  /**
+  * Let the user take the position of the device
+  */
   getLocation = async () => {
     try {
       const { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -101,6 +114,9 @@ export default class CustomActions extends React.Component {
     }
   };
 
+  /**
+  * When the user press the action button, can choose what media to send or cancel
+  */
   onActionPress = () => {
     const options = ['Choose From Library', 'Take Picture', 'Send Location', 'Cancel'];
     const cancelButtonIndex = options.length - 1;

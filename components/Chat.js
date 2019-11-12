@@ -15,6 +15,9 @@ import CustomActions from './CustomActions';
 
 // this class implements the main chat screen
 export default class Chat extends Component {
+  /**
+  * this sets the title in the navigation bar and its the color
+  */
   static navigationOptions = ({ navigation }) => {
     // set the title of the navigation bar with the one passed as prop to navigate() in Start.js
     return {
@@ -122,6 +125,11 @@ export default class Chat extends Component {
     });
   }
 
+  /**
+  * When the user press 'send', the message is stored in the state
+  * first, then sent online, and stored locally
+  * @param messages the list of messages to send
+  */
   onSend = (messages = []) => {
     // on send, append the new message to the previous ones
     this.setState((previousState) => ({
@@ -136,8 +144,10 @@ export default class Chat extends Component {
     });
   }
 
+  /**
+  * Load the messages from asyncStorage
+  */
   getMessages = async () => {
-    // load the messages from asyncStorage
     let messages = '';
     try {
       messages = await AsyncStorage.getItem('messages') || [];
@@ -149,6 +159,9 @@ export default class Chat extends Component {
     }
   }
 
+  /**
+  * Store the messages online
+  */
   addMessage = async (messages) => {
     const message = messages[0];
     try {
@@ -165,6 +178,9 @@ export default class Chat extends Component {
     }
   }
 
+  /**
+  * Store the messages on the local store for offline mode
+  */
   saveMessages = async () => {
     try {
       await AsyncStorage.setItem('messages', JSON.stringify(this.state.messages));
@@ -173,7 +189,9 @@ export default class Chat extends Component {
     }
   }
 
-  // only for development (to clear the storage)
+  /**
+  * Clear the local storage. Only for development
+  */
   deleteMessages = async () => {
     try {
       await AsyncStorage.removeItem('messages');
@@ -182,7 +200,9 @@ export default class Chat extends Component {
     }
   }
 
-  // handler to customize the input bar (do not show it if offline)
+  /**
+  * Handler to customize the input bar (do not show it if offline)
+  */
   renderInputToolbar = (props) => {
     if (this.state.isConnected) {
       return (<InputToolbar {...props} />);
@@ -190,7 +210,9 @@ export default class Chat extends Component {
     return (<></>);
   }
 
-  // handler to customize the bubbles (left, right)
+  /**
+  * Handler to customize the bubbles (left, right)
+  */
   renderBubble = (props) => {
     return (
       <Bubble
@@ -207,8 +229,14 @@ export default class Chat extends Component {
     );
   }
 
+  /**
+  * Handler to render the actions (send image, location)
+  */
   renderCustomActions = (props) => <CustomActions {...props} />;
 
+  /**
+  * Handler to render the location as a map
+  */
   renderCustomView = (props) => {
     const { currentMessage } = props;
     if (currentMessage.location) {
