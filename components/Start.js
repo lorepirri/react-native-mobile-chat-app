@@ -9,7 +9,10 @@ const CHAT_COLOR_2 = '#474056';
 const CHAT_COLOR_3 = '#8A95A5';
 const CHAT_COLOR_4 = '#B9C6AE';
 
-// This class implements the Start screen
+/**
+* This class implements the Start screen
+* @class Start
+*/
 export default class Start extends Component {
   constructor(props) {
     super(props);

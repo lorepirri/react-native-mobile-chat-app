@@ -13,7 +13,10 @@ import 'firebase/firestore';
 import config from '../config';
 import CustomActions from './CustomActions';
 
-// this class implements the main chat screen
+/**
+* this class implements the main chat screen
+* @class Chat
+*/
 export default class Chat extends Component {
   /**
   * this sets the title in the navigation bar and its the color
@@ -128,6 +131,7 @@ export default class Chat extends Component {
   /**
   * When the user press 'send', the message is stored in the state
   * first, then sent online, and stored locally
+  * @function onSend
   * @param messages the list of messages to send
   */
   onSend = (messages = []) => {
@@ -146,6 +150,7 @@ export default class Chat extends Component {
 
   /**
   * Load the messages from asyncStorage
+  * @function getMessages
   * @async
   */
   getMessages = async () => {
@@ -162,6 +167,7 @@ export default class Chat extends Component {
 
   /**
   * Store the messages online
+  * @function addMessage
   * @param messages the list of messages to store
   * @async
   */
@@ -183,6 +189,7 @@ export default class Chat extends Component {
 
   /**
   * Store the messages on the local store for offline mode
+  * @function saveMessages
   * @async
   */
   saveMessages = async () => {
@@ -195,6 +202,7 @@ export default class Chat extends Component {
 
   /**
   * Clear the local storage. Only for development
+  * @function deleteMessages
   * @async
   */
   deleteMessages = async () => {
@@ -207,6 +215,7 @@ export default class Chat extends Component {
 
   /**
   * Handler to customize the input bar (do not show it if offline)
+  * @function renderInputToolbar
   * @param props
   * @return InputToolbar
   */
@@ -219,6 +228,7 @@ export default class Chat extends Component {
 
   /**
   * Handler to customize the bubbles (left, right)
+  * @function renderBubble
   * @param props
   * @return Bubble
   */
@@ -240,6 +250,7 @@ export default class Chat extends Component {
 
   /**
   * Handler to render the actions (send image, location)
+  * @function renderCustomActions
   * @param props
   * @return CustomActions
   */
@@ -247,6 +258,7 @@ export default class Chat extends Component {
 
   /**
   * Handler to render the location as a map
+  * @function renderCustomView
   * @param props
   * @return MapView
   */

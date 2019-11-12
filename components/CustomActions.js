@@ -10,9 +10,14 @@ import * as Location from 'expo-location';
 const firebase = require('firebase');
 require('firebase/firestore');
 
+/**
+* this class implements the actions to send medias (images, locations)
+* @class CustomActions
+*/
 export default class CustomActions extends React.Component {
   /**
   * Let the user upload an image online and get the getDownloadURL
+  * @function uploadImage
   * @param uri uri of the image
   * @return download URL of the image or null in case of error
   */
@@ -52,6 +57,7 @@ export default class CustomActions extends React.Component {
 
   /**
   * Let the user pick an image from the device's image library
+  * @function pickImage
   * @async
   */
   pickImage = async () => {
@@ -74,6 +80,7 @@ export default class CustomActions extends React.Component {
 
   /**
   * Let the user take a picture using the camera of the device
+  * @function takePhoto
   * @async
   */
   takePhoto = async () => {
@@ -95,6 +102,7 @@ export default class CustomActions extends React.Component {
 
   /**
   * Let the user take the position of the device
+  * @function getLocation
   * @async
   */
   getLocation = async () => {
@@ -120,6 +128,7 @@ export default class CustomActions extends React.Component {
 
   /**
   * When the user press the action button, can choose what media to send or cancel
+  * @function onActionPress
   */
   onActionPress = () => {
     const options = ['Choose From Library', 'Take Picture', 'Send Location', 'Cancel'];
