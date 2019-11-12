@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { 
+import {
   StyleSheet, Text, View, TouchableOpacity,
 } from 'react-native';
 import * as Permissions from 'expo-permissions';

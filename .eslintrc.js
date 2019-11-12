@@ -1,6 +1,7 @@
 module.exports = {
   env: {
     'react-native/react-native': true,
+    es6: true,
   },
   parser: 'babel-eslint',
   extends: [
