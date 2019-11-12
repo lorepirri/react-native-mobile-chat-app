@@ -13,10 +13,10 @@ export default class CustomActions extends React.Component {
     try {
       const blob = await new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
-        xhr.onload = function() {
+        xhr.onload = () => {
           resolve(xhr.response);
         };
-        xhr.onerror = function(e) {
+        xhr.onerror = (e) => {
           console.log(e);
           reject(new TypeError('Network request failed'));
         };
@@ -43,43 +43,55 @@ export default class CustomActions extends React.Component {
   }
 
   pickImage = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    try {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
-    if(status === 'granted') {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: 'Images',
-      }).catch(error => console.log(error));
-      if (!result.cancelled) {
-        this.props.onSend({image: result.uri});
+      if(status === 'granted') {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: 'Images',
+        }).catch(error => console.log(error));
+        if (!result.cancelled) {
+          this.props.onSend({image: result.uri});
+        }
       }
+    } catch(error) {
+      console.log(error.message);
     }
   };
 
   takePhoto = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL, Permissions.CAMERA);
+    try {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL, Permissions.CAMERA);
 
-    if(status === 'granted') {
-      let result = await ImagePicker.launchCameraAsync()
-      .catch(error => console.log(error));
-
-      if (!result.cancelled) {
-        const imageUrl = await this.uploadImage(result.uri);
-        this.props.onSend({ image: imageUrl });
+      if(status === 'granted') {
+        let result = await ImagePicker.launchCameraAsync()
+        .catch(error => console.log(error));
+  
+        if (!result.cancelled) {
+          const imageUrl = await this.uploadImage(result.uri);
+          this.props.onSend({ image: imageUrl });
+        }
       }
-    }
+    } catch(error) {
+      console.log(error.message);
+    }    
   };
 
   getLocation = async () => {
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    try {
+      const { status } = await Permissions.askAsync(Permissions.LOCATION);
 
-    if(status === 'granted') {
-       let result = await Location.getCurrentPositionAsync({})
-       .catch(error => console.log(error));
-
-      if (result) {
-        this.props.onSend({location: { latitude: result.coords.latitude, longitude: result.coords.longitude }})
+      if(status === 'granted') {
+         let result = await Location.getCurrentPositionAsync({})
+         .catch(error => console.log(error));
+  
+        if (result) {
+          this.props.onSend({location: { latitude: result.coords.latitude, longitude: result.coords.longitude }})
+        }
       }
-    }
+    } catch(error) {
+      console.log(error.message);
+    }    
   };
 
   onActionPress = () => {
@@ -90,30 +102,34 @@ export default class CustomActions extends React.Component {
       cancelButtonIndex,
     },
     async (buttonIndex) => {
-      switch (buttonIndex) {
-        case 0:
-          this.pickImage();
-          return;
-        case 1:
-          this.takePhoto();
-          return;
-        case 2:
-          this.getLocation();
-        default:
-      }
+      try {
+        switch (buttonIndex) {
+          case 0:
+            this.pickImage();
+            return;
+          case 1:
+            this.takePhoto();
+            return;
+          case 2:
+            this.getLocation();
+          default:
+        }
+      } catch(error) {
+        console.log(error.message);
+      }        
     },
     );
   };
 
-    render () {
-      return (
-        <TouchableOpacity style={[styles.container]} onPress={this.onActionPress}>
-          <View style={[styles.wrapper, this.props.wrapperStyle]}>
-            <Text style={[styles.iconText, this.props.iconTextStyle]}>+</Text>
-          </View>
-        </TouchableOpacity>
-      );
-    }
+  render () {
+    return (
+      <TouchableOpacity style={[styles.container]} onPress={this.onActionPress}>
+        <View style={[styles.wrapper, this.props.wrapperStyle]}>
+          <Text style={[styles.iconText, this.props.iconTextStyle]}>+</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
 }
 
 const styles = StyleSheet.create({

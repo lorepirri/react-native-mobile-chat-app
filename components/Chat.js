@@ -7,8 +7,8 @@ import MapView from 'react-native-maps';
 import CustomActions from './CustomActions';
 
 import config from "../config";
-const firebase = require('firebase');
-require('firebase/firestore');
+import * as firebase from 'firebase';
+import 'firebase/firestore';
 
 
 // this class implements the main chat screen
@@ -100,7 +100,7 @@ export default class Chat extends Component {
     // go through each document
     querySnapshot.forEach((doc) => {
       // get the QueryDocumentSnapshot's data
-      var data = doc.data();
+      const data = doc.data();
 
       // let message = 
       messages.push({
@@ -135,17 +135,20 @@ export default class Chat extends Component {
     }
   };
 
-  async addMessage(messages) {
+  addMessage = async (messages) => {
     const message = messages[0];
-
-    this.referenceMessages.add({
-      _id: message._id,
-      createdAt: message.createdAt,
-      text: message.text || '',
-      user: message.user,
-      image: message.image || '',
-      location: message.location || null
-    });
+    try {
+      this.referenceMessages.add({
+        _id: message._id,
+        createdAt: message.createdAt,
+        text: message.text || '',
+        user: message.user,
+        image: message.image || '',
+        location: message.location || null
+      });
+    } catch(error) {
+      console.log(error.message);
+    }
   }
 
   async saveMessages() {
